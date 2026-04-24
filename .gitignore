@@ -31,3 +31,13 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Prevents leaking the ngrok URL and DB credentials
+/src/main/resources/application.properties
+/src/main/resources/application.yml
+
+
+# --- BUILD OUTPUT ---
+target/
+!.mvn/wrapper/maven-wrapper.jar
+build/
