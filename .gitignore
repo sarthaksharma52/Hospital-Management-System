@@ -41,3 +41,21 @@ build/
 target/
 !.mvn/wrapper/maven-wrapper.jar
 build/
+
+# --- IDE FILES ---
+# STS
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+
+# Misc
+
+src\main\resources\application.properties
+src\main\resources\application.yml
+
+pom.xml
