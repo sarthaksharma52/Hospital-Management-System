@@ -1,7 +1,6 @@
 package cg.hospital.entity;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -22,7 +21,8 @@ public class Appointment {
     @Column(name = "AppointmentID", nullable = false)
     private Integer appointmentID;
 
-    // Mapped as an Integer because the Patient entity belongs to another team member
+    // Mapped as an Integer because the Patient entity belongs to another team
+    // member
     @Column(name = "Patient", nullable = false)
     private Integer patient;
 
@@ -43,7 +43,7 @@ public class Appointment {
 
     // The HATEOAS relationship builder
     @OneToOne(mappedBy = "appointment", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Prescribes> prescriptions;
+    private Prescribes prescriptions;
 
     public Integer getAppointmentID() {
         return appointmentID;
@@ -101,13 +101,12 @@ public class Appointment {
         this.examinationRoom = examinationRoom;
     }
 
-    public List<Prescribes> getPrescriptions() {
+    public Prescribes getPrescriptions() {
         return prescriptions;
     }
 
-    public void setPrescriptions(List<Prescribes> prescriptions) {
+    public void setPrescriptions(Prescribes prescriptions) {
         this.prescriptions = prescriptions;
     }
 
-    
 }
