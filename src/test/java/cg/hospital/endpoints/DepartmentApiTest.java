@@ -25,7 +25,7 @@ class DepartmentApiTest {
                 .andExpect(jsonPath("$._embedded.departments").exists());
     }
 
-    // ✅ GET BY ID
+//     ✅ GET BY ID
 //    @Test
 //    void shouldReturnDepartment_whenValidIdProvided() throws Exception {
 //        mockMvc.perform(get("/api/departments/1"))

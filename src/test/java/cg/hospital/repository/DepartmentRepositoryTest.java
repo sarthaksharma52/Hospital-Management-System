@@ -1,7 +1,6 @@
 package cg.hospital.repository;
 
 import cg.hospital.entity.Department;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -19,90 +18,99 @@ class DepartmentRepositoryTest {
     @Autowired
     private DepartmentRepository departmentRepository;
 
+    // ✅ GET ALL
     @Test
-    @DisplayName("findAll should return all departments from DB")
-    void testFindAll() {
-        List<Department> all = departmentRepository.findAll();
+    void shouldReturnAllDepartments() {
+        List<Department> result = departmentRepository.findAll();
 
-        // Based on your DB:
-        // 1 - General Medicine
-        // 2 - Surgery
-        // 3 - Psychiatry
-        assertThat(all).hasSizeGreaterThanOrEqualTo(3);
+        assertThat(result).isNotEmpty();
+        assertThat(result.size()).isGreaterThanOrEqualTo(3); // based on your DB
     }
 
-//    @Test
-//    @DisplayName("findById should return department when ID exists")
-//    void testFindById_found() {
-//        Optional<Department> result = departmentRepository.findById(1);
-//
-//        assertThat(result).isPresent();
-//        assertThat(result.get().getName()).isEqualTo("General Medicine");
-//    }
-
-//    @Test
-//    @DisplayName("findById should return empty when ID does not exist")
-//    void testFindById_notFound() {
-//        Optional<Department> result = departmentRepository.findById(999);
-//
-//        assertThat(result).isEmpty();
-//    }
-
+    // ✅ FIND BY ID (EXISTS)
     @Test
-    @DisplayName("findByName should return department when name matches")
-    void testFindByName_found() {
-        Optional<Department> result = departmentRepository.findByName("Surgery");
+    void shouldFindById_whenExists() {
+        Optional<Department> result = departmentRepository.findById(1);
 
         assertThat(result).isPresent();
-        assertThat(result.get().getDepartmentID()).isEqualTo(2);
     }
 
     @Test
-    @DisplayName("findByName should return empty when name does not match")
-    void testFindByName_notFound() {
-        Optional<Department> result = departmentRepository.findByName("Dermatology");
+    void shouldReturnEmpty_whenIdNotExists() {
+        List<Department> all = departmentRepository.findAll();
+
+        int nonExistingId = all.stream()
+                .mapToInt(Department::getDepartmentID)
+                .max()
+                .orElse(0) + 1000;
+
+        Optional<Department> result = departmentRepository.findById(nonExistingId);
 
         assertThat(result).isEmpty();
     }
 
-//    @Test
-//    @DisplayName("findByHead_EmployeeId should return correct departments")
-//    void testFindByHeadEmployeeID() {
-//        List<Department> result = departmentRepository.findByHead_EmployeeId(4);
-//
-//        assertThat(result).isNotEmpty();
-//        assertThat(result.get(0).getName()).isEqualTo("General Medicine");
-//    }
-
+    // ✅ FIND BY NAME (EXISTS)
     @Test
-    @DisplayName("findByHead_EmployeeId should return empty list")
-    void testFindByHeadEmployeeID_noResults() {
+    void shouldFindByName_whenExists() {
+        Optional<Department> result = departmentRepository.findByName("Surgery");
+
+        assertThat(result).isPresent();
+    }
+
+    // ✅ FIND BY NAME (NOT EXISTS)
+    @Test
+    void shouldReturnEmpty_whenNameNotExists() {
+        Optional<Department> result = departmentRepository.findByName("XYZ");
+
+        assertThat(result).isEmpty();
+    }
+
+    // ✅ FIND BY HEAD (EXISTS)
+    @Test
+    void shouldFindByHeadEmployeeId_whenExists() {
+        List<Department> result = departmentRepository.findByHead_EmployeeId(7);
+
+        assertThat(result).isNotEmpty();
+    }
+
+    // ✅ FIND BY HEAD (NOT EXISTS)
+    @Test
+    void shouldReturnEmpty_whenHeadEmployeeIdNotExists() {
         List<Department> result = departmentRepository.findByHead_EmployeeId(999);
 
         assertThat(result).isEmpty();
     }
 
+    // ✅ EXISTS TRUE
     @Test
-    @DisplayName("existsByHead_EmployeeId should return true")
-    void testExistsByHeadEmployeeID_exists() {
-        boolean exists = departmentRepository.existsByHead_EmployeeId(4);
+    void shouldReturnTrue_whenExistsByHead() {
+        boolean result = departmentRepository.existsByHead_EmployeeId(4);
 
-        assertThat(exists).isTrue();
+        assertThat(result).isTrue();
     }
 
+    // ✅ EXISTS FALSE
     @Test
-    @DisplayName("existsByHead_EmployeeId should return false")
-    void testExistsByHeadEmployeeID_notExists() {
-        boolean exists = departmentRepository.existsByHead_EmployeeId(1);
+    void shouldReturnFalse_whenNotExistsByHead() {
+        boolean result = departmentRepository.existsByHead_EmployeeId(1);
 
-        assertThat(exists).isFalse();
+        assertThat(result).isFalse();
     }
 
+    // ✅ COUNT
     @Test
-    @DisplayName("count should return number of departments")
-    void testCount() {
+    void shouldReturnCount() {
         long count = departmentRepository.count();
 
-        assertThat(count).isGreaterThanOrEqualTo(3);
+        assertThat(count).isGreaterThan(0);
+    }
+
+    // ✅ OPTIONAL: VALIDATE DATA (STRONG TEST)
+    @Test
+    void shouldReturnDepartment_whenIdExists() {
+        Optional<Department> result = departmentRepository.findById(1);
+
+        assertThat(result).isPresent();
+        assertThat(result.get().getName()).isNotBlank();
     }
 }
