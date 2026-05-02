@@ -9,6 +9,8 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -21,16 +23,17 @@ public class Appointment {
     @Column(name = "AppointmentID", nullable = false)
     private Integer appointmentID;
 
-    // Mapped as an Integer because the Patient entity belongs to another team
-    // member
-    @Column(name = "Patient", nullable = false)
-    private Integer patient;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "Patient", referencedColumnName = "SSN", nullable = false)
+    private Patient patientEntity;
 
-    @Column(name = "PrepNurse") // Nullable based on schema
-    private Integer prepNurse;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PrepNurse", referencedColumnName = "EmployeeID")
+    private Nurse prepNurseEntity;
 
-    @Column(name = "Physician", nullable = false)
-    private Integer physician;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "Physician", referencedColumnName = "EmployeeID", nullable = false)
+    private Physician physicianEntity;
 
     @Column(name = "Starto", nullable = false)
     private LocalDateTime starto;
@@ -53,28 +56,28 @@ public class Appointment {
         this.appointmentID = appointmentID;
     }
 
-    public Integer getPatient() {
-        return patient;
+    public Patient getPatientEntity() {
+        return patientEntity;
     }
 
-    public void setPatient(Integer patient) {
-        this.patient = patient;
+    public void setPatientEntity(Patient patientEntity) {
+        this.patientEntity = patientEntity;
     }
 
-    public Integer getPrepNurse() {
-        return prepNurse;
+    public Nurse getPrepNurseEntity() {
+        return prepNurseEntity;
     }
 
-    public void setPrepNurse(Integer prepNurse) {
-        this.prepNurse = prepNurse;
+    public void setPrepNurseEntity(Nurse prepNurseEntity) {
+        this.prepNurseEntity = prepNurseEntity;
     }
 
-    public Integer getPhysician() {
-        return physician;
+    public Physician getPhysicianEntity() {
+        return physicianEntity;
     }
 
-    public void setPhysician(Integer physician) {
-        this.physician = physician;
+    public void setPhysicianEntity(Physician physicianEntity) {
+        this.physicianEntity = physicianEntity;
     }
 
     public LocalDateTime getStarto() {

@@ -24,8 +24,16 @@ public class Prescribes {
     @JoinColumn(name = "Appointment", referencedColumnName = "AppointmentID")
     private Appointment appointment;
 
-    // Provides easy reading of the joined Medication details
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "Physician", referencedColumnName = "EmployeeID", insertable = false, updatable = false)
+    private Physician physicianEntity;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "Patient", referencedColumnName = "SSN", insertable = false, updatable = false)
+    private Patient patientEntity;
+
+    // Provides easy reading of the joined Medication details
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Medication", referencedColumnName = "Code", insertable = false, updatable = false)
     private Medication medicationEntity;
 
@@ -59,6 +67,22 @@ public class Prescribes {
 
     public void setMedicationEntity(Medication medicationEntity) {
         this.medicationEntity = medicationEntity;
+    }
+
+    public Physician getPhysicianEntity() {
+        return physicianEntity;
+    }
+
+    public void setPhysicianEntity(Physician physicianEntity) {
+        this.physicianEntity = physicianEntity;
+    }
+
+    public Patient getPatientEntity() {
+        return patientEntity;
+    }
+
+    public void setPatientEntity(Patient patientEntity) {
+        this.patientEntity = patientEntity;
     }
 
     

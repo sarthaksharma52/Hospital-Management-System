@@ -17,30 +17,31 @@ public interface PrescribesProjection {
     // Core fields
     String getDose();
 
+    @Value("#{target.id.date}")
     LocalDateTime getDate();
 
     // Physician info
-    @Value("#{target.physician.name}")
+    @Value("#{target.physicianEntity.name}")
     String getPhysicianName();
 
-    @Value("#{target.physician.employeeId}")
+    @Value("#{target.physicianEntity.employeeId}")
     Integer getPhysicianId();
 
-    @Value("#{target.physician.position}")
+    @Value("#{target.physicianEntity.position}")
     String getPhysicianPosition();
 
     // Patient info
-    @Value("#{target.patient.name}")
+    @Value("#{target.patientEntity.name}")
     String getPatientName();
 
-    @Value("#{target.patient.ssn}")
+    @Value("#{target.patientEntity.ssn}")
     Integer getPatientSsn();
 
     // Medication — name only, as per spec (not exposed directly)
-    @Value("#{target.medication.name}")
+    @Value("#{target.medicationEntity.name}")
     String getMedicationName();
 
-    @Value("#{target.medication.brand}")
+    @Value("#{target.medicationEntity.brand}")
     String getMedicationBrand();
 
     // Appointment link — nullable

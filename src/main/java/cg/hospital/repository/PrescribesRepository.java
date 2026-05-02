@@ -9,26 +9,20 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-@RepositoryRestResource(
-    path = "prescriptions",
-    collectionResourceRel = "prescriptions",
-    excerptProjection = PrescribesProjection.class
-)
+@RepositoryRestResource(path = "prescriptions", collectionResourceRel = "prescriptions", excerptProjection = PrescribesProjection.class)
 public interface PrescribesRepository
-    extends JpaRepository<Prescribes, PrescribesId> {
+        extends JpaRepository<Prescribes, PrescribesId> {
 
+    // GET /api/prescriptions/search/findByAppointment_AppointmentID?id={id}
     Page<Prescribes> findByAppointment_AppointmentID(
-        @Param("id") Integer appointmentId,
-        Pageable pageable
-    );
+            @Param("id") Integer appointmentId,
+            Pageable pageable);
 
     Page<Prescribes> findByIdPhysician(
-        @Param("physician") Integer physician,
-        Pageable pageable
-    );
+            @Param("physician") Integer physician,
+            Pageable pageable);
 
     Page<Prescribes> findByIdPatient(
-        @Param("patient") Integer patient,
-        Pageable pageable
-    );
+            @Param("patient") Integer patient,
+            Pageable pageable);
 }
