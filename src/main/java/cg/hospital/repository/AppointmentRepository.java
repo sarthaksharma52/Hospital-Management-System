@@ -8,25 +8,23 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-@RepositoryRestResource(
-    path = "appointments",
-    collectionResourceRel = "appointments",
-    excerptProjection = AppointmentProjection.class
-)
+@RepositoryRestResource(path = "appointments", collectionResourceRel = "appointments", excerptProjection = AppointmentProjection.class)
 public interface AppointmentRepository
-    extends JpaRepository<Appointment, Integer> {
+        extends JpaRepository<Appointment, Integer> {
 
+    // GET /api/appointments/search/findByOrderByStartoDesc?size=10
     Page<Appointment> findByOrderByStartoDesc(
-        Pageable pageable
-    );
+            Pageable pageable);
 
-    Page<Appointment> findByPatient(
-        @Param("patient") Integer patient,
-        Pageable pageable
-    );
+    Page<Appointment> findByPatientEntitySsn(
+            @Param("patient") Integer patient,
+            Pageable pageable);
 
-    Page<Appointment> findByPhysician(
-        @Param("physician") Integer physician,
-        Pageable pageable
-    );
+    Page<Appointment> findByPhysicianEntityEmployeeId(
+            @Param("physician") Integer physician,
+            Pageable pageable);
+
+    Page<Appointment> findByPrepNurseEntityEmployeeId(
+            @Param("nurse") Integer nurse,
+            Pageable pageable);
 }

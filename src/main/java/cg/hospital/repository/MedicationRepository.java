@@ -6,6 +6,10 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import cg.hospital.entity.Medication;
 
-@RepositoryRestResource(collectionResourceRel = "medications", path = "medications")
+import java.util.Optional;
+import org.springframework.data.repository.query.Param;
+
+@RepositoryRestResource(collectionResourceRel = "medications", path = "medications", exported = false)
 public interface MedicationRepository extends JpaRepository<Medication, Integer> {
+    Optional<Medication> findByCode(@Param("code") Integer code);
 }

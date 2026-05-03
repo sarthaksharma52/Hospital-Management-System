@@ -19,24 +19,24 @@ public interface AppointmentProjection {
     String getExaminationRoom();
 
     // Flatten Patient → name only
-    @Value("#{target.patient.name}")
+    @Value("#{target.patientEntity.name}")
     String getPatientName();
 
     // Flatten Patient SSN (useful as identifier on the frontend)
-    @Value("#{target.patient.ssn}")
+    @Value("#{target.patientEntity.ssn}")
     Integer getPatientSsn();
 
     // Flatten Physician → name only
-    @Value("#{target.physician.name}")
+    @Value("#{target.physicianEntity.name}")
     String getPhysicianName();
 
-    @Value("#{target.physician.employeeId}")
+    @Value("#{target.physicianEntity.employeeId}")
     Integer getPhysicianId();
 
     // PrepNurse is nullable – guard against NullPointerException with ternary SpEL
-    @Value("#{target.prepNurse != null ? target.prepNurse.name : null}")
+    @Value("#{target.prepNurseEntity != null ? target.prepNurseEntity.name : null}")
     String getPrepNurseName();
 
-    @Value("#{target.prepNurse != null ? target.prepNurse.employeeId : null}")
+    @Value("#{target.prepNurseEntity != null ? target.prepNurseEntity.employeeId : null}")
     Integer getPrepNurseId();
 }
